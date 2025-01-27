@@ -70,8 +70,8 @@ body {
 }
 
 .intro-container img {
-    width: 50%;
-    min-width: 300px;
+    width: 30%;
+    min-width: 200px;
 }
 
 #loader {
