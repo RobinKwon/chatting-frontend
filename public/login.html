@@ -1,22 +1,95 @@
+개선된 로그인 HTML
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Screen</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        <form id="login-form">
-            <label for="id">ID:</label>
-            <input type="text" id="id" placeholder="Enter your ID"><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter your password"><br>
-            <button type="button" id="submit-button">Login</button>
+    <div class="login-page">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Please login</h2>
+            
+            <!-- Error message container -->
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            
+            <div class="form-group">
+                <input 
+                    id="id" 
+                    type="text" 
+                    class="form-control" 
+                    name="username" 
+                    placeholder="Email Address"
+                    required
+                    autocomplete="username"
+                />
+            </div>
+            
+            <div class="form-group">
+                <input 
+                    id="password" 
+                    type="password" 
+                    class="form-control" 
+                    name="password" 
+                    placeholder="Password"
+                    required
+                    autocomplete="current-password"
+                />
+            </div>
+            
+            <div class="form-group checkbox">
+                <label>
+                    <input id="rememberMe" type="checkbox" value="remember-me" name="rememberMe">
+                    Remember me
+                </label>
+            </div>
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit" id="login-button">
+                Login
+            </button>
+            
+            <!-- Loading status -->
+            <div id="login-status" class="login-status" style="display: none;">
+                Processing login...
+            </div>
+            
+            <p class="message">
+                Not registered? <a href="/register">Register</a>
+            </p>
         </form>
     </div>
     <script src="./js/login.js"></script>
 </body>
 </html>
+
+<!-- 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Screen</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+    <div class="login-page">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Please login</h2>
+            <input id="id" type="text" class="form-control" name="username" placeholder="Email Address"/>
+            <input id="password" type="password" class="form-control" name="password" placeholder="Password"/>
+            <label class="checkbox">
+                <input id="rememberMe" type="checkbox" value="remember-me" name="rememberMe"> Remember me
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" id="login-button">login</button>
+            <p class="message">Not registered? <a href="/regist">register</a></p>
+        </form>
+    </div>
+    <script src="./js/login.js"></script>
+</body>
+</html>
+-->
+
+<!-- Copyright (c) 2025 by Ace Subido (https://codepen.io/ace-subido/pen/nLgWyj) -->
