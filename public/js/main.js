@@ -1,3 +1,4 @@
+const API_URL = 'http://localhost:3000';
 const chatBox = document.querySelector('.chat-box');
 const chatInput = document.querySelector('.chat-input input');
 const sendButton = document.querySelector('.chat-input button');
@@ -5,15 +6,51 @@ const chatMessage = document.createElement('div');
 const astrologerMessage = document.createElement('div');
 let userMessages = [];
 let assistantMessages = [];
+let userId = '';
 let myDateTime = '';
 
 function spinner() {
     document.getElementById('loader').style.display = 'block';
 }
 
-function handleSend() {
-    spinner();
-    sendMessage();
+async function handleSend() {
+    console.log("handleSend!");
+
+    // 사용자 ID 가져오기 (예제: sessionStorage 사용)
+    userId = sessionStorage.getItem('userId');
+    if (!userId) {
+        alert('로그인이 필요합니다.');
+        window.location.href = './login.html';
+        return;
+    }
+    console.log(`Logged in user ID: ${userId}`);
+
+    // read birth
+    const response = await fetch(`${API_URL}/GetBirth`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId })
+    });
+    const data = await response.json();
+    console.log(`GetBirth info: ${data.success}`);
+    if (data.success) {
+        //const data = response.json();
+        myDateTime = data.message;
+
+        // HTML 요소 업데이트
+        //const userDisplay = document.getElementById('userDisplay');
+        //if (userDisplay) {
+        //    userDisplay.textContent = `Welcome, ${userId}`;
+        //}
+
+        spinner();
+        sendMessage();
+    }
+    else {
+        alert('Failed to read birth. ${response}');
+    }
 }
 
 function start() {
@@ -38,7 +75,7 @@ const sendMessage = async () => {
         userMessages.push(chatInput.value);
         chatInput.value = '';
 
-        const response = await fetch('http://localhost:3000/ChildhoodFriend', {
+        const response = await fetch(`${API_URL}/ChildhoodFriend`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

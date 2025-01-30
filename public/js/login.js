@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ id, password })
                 //credentials: 'same-origin' //include 대신 same-origin 사용
             });
-
             const data = await response.json();
 
             if (response.ok && data.status === 'OK') {
@@ -76,8 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.token) {
                     localStorage.setItem('authToken', data.token);
                 }
-                
-                // Redirect to main page
+                sessionStorage.setItem('userId', id);
                 window.location.href = './main.html';
             } else {
                 const errorMessage = data.message || 
