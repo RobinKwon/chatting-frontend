@@ -2,15 +2,20 @@ const API_URL = 'http://localhost:3000';
 const chatBox = document.querySelector('.chat-box');
 const chatInput = document.querySelector('.chat-input input');
 const sendButton = document.querySelector('.chat-input button');
-const chatMessage = document.createElement('div');
-const astrologerMessage = document.createElement('div');
 let userMessages = [];
 let assistantMessages = [];
 let userId = '';
 let myDateTime = '';
 
 function spinner() {
-    document.getElementById('loader').style.display = 'block';
+    const loader = document.getElementById('loader');
+    loader.style.display = 'block';
+    loader.style.animation = "fa-spin 2s infinite linear"; // 애니메이션 적용
+}
+
+function pageScroll() {
+    window.scrollBy(0,1);
+    scrolldelay = setTimeout(pageScroll, 10);
 }
 
 async function handleSend() {
@@ -68,6 +73,7 @@ function start() {
 
 const sendMessage = async () => {
     try {
+        const chatMessage = document.createElement('div');
         chatMessage.classList.add('chat-message');
         chatMessage.innerHTML = `<p>${chatInput.value}</p>`;
         chatBox.appendChild(chatMessage);
@@ -81,6 +87,7 @@ const sendMessage = async () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                id: userId,
                 myDateTime: myDateTime,
                 userMessages: userMessages,
                 assistantMessages: assistantMessages,
@@ -93,11 +100,12 @@ const sendMessage = async () => {
         assistantMessages.push(data.assistant);
 
         if (typeof data.assistant === 'string') {
+            const astrologerMessage = document.createElement('div');
             astrologerMessage.classList.add('chat-message');
             astrologerMessage.innerHTML = `
                 <p class='assistant'>${data.assistant}</p>
-                <p class='assistant'>추가로 링크를 눌러 작은 정성 배풀어주시면 더욱 좋은 운이 있으실겁니다. => <a href='https://toss.me/jocoding'>복채 보내기</a></p>
             `;
+            //<p class='assistant'>추가로 링크를 눌러 작은 정성 배풀어주시면 더욱 좋은 운이 있으실겁니다. => <a href='https://toss.me/jocoding'>복채 보내기</a></p>
             chatBox.appendChild(astrologerMessage);
         } else {
             throw new Error('Invalid assistant message');
