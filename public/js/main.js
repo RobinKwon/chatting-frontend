@@ -2,8 +2,8 @@ const API_URL = 'http://localhost:3000';
 const chatBox = document.querySelector('.chat-box');
 const chatInput = document.querySelector('.chat-input input');
 const sendButton = document.querySelector('.chat-input button');
-let userMessages = [];
-let assistantMessages = [];
+//let userMessages = [];
+//let assistantMessages = [];
 let userId = '';
 let myDateTime = '';
 
@@ -78,8 +78,7 @@ const sendMessage = async () => {
         chatMessage.innerHTML = `<p>${chatInput.value}</p>`;
         chatBox.appendChild(chatMessage);
 
-        userMessages.push(chatInput.value);
-        chatInput.value = '';
+        //userMessages.push(chatInput.value);
 
         const response = await fetch(`${API_URL}/ChildhoodFriend`, {
             method: 'POST',
@@ -89,15 +88,16 @@ const sendMessage = async () => {
             body: JSON.stringify({
                 id: userId,
                 myDateTime: myDateTime,
-                userMessages: userMessages,
-                assistantMessages: assistantMessages,
+                userMessages: chatInput.value,
+                assistantMessages: '',
             }),
         });
+        chatInput.value = '';
 
         const data = await response.json();
         document.getElementById('loader').style.display = 'none';
 
-        assistantMessages.push(data.assistant);
+        //assistantMessages.push(data.assistant);
 
         if (typeof data.assistant === 'string') {
             const astrologerMessage = document.createElement('div');
