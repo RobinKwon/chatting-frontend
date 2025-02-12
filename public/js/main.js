@@ -2,8 +2,11 @@ const API_URL = 'http://localhost:3000';
 const chatBox = document.querySelector('.chat-box');
 const chatInput = document.querySelector('.chat-input input');
 const sendButton = document.querySelector('.chat-input button');
-//let userMessages = [];
-//let assistantMessages = [];
+
+// 새로 추가된 사진 관련 요소
+const photoBtn = document.getElementById('photoBtn');
+const photoInput = document.getElementById('photoInput');
+
 let userId = '';
 let myDateTime = '';
 
@@ -71,7 +74,7 @@ function start() {
     document.getElementById('chat').style.display = 'block';
 }
 
-const sendMessage = async () => {
+async function sendMessage() {
     try {
         const chatMessage = document.createElement('div');
         chatMessage.classList.add('chat-message');
@@ -119,6 +122,60 @@ const sendMessage = async () => {
         chatBox.appendChild(errorMessage);
     }
 };
+
+// 사진 업로드 함수
+async function handlePhotoUpload() {
+    const file = photoInput.files[0];
+    if (!file) {
+      return;
+    }
+  
+    // FormData 객체에 파일 및 필요한 데이터 추가 (예: userId)
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', userId);
+  
+    spinner(); // 업로드 시작 시 로더 표시
+  
+    try {
+      const response = await fetch(`${API_URL}/upload_image`, {
+        method: 'POST',
+        body: formData
+      });
+      if (!response.ok) {
+        throw new Error('서버 응답에 문제가 있습니다.');
+      }
+      const data = await response.json();
+      document.getElementById('loader').style.display = 'none';
+  
+      // 서버에서 업로드 완료 후 이미지 URL을 반환했다고 가정
+      const photoMessage = document.createElement('div');
+      photoMessage.classList.add('chat-message');
+      photoMessage.innerHTML = `
+        <p class='assistant'>사진 업로드 성공!</p>
+        <img src="${data.imageUrl}" alt="Uploaded photo" style="max-width: 200px;">
+      `;
+      chatBox.appendChild(photoMessage);
+    } catch (error) {
+      console.error('사진 업로드 실패:', error);
+      document.getElementById('loader').style.display = 'none';
+      const errorMessage = document.createElement('div');
+      errorMessage.classList.add('chat-message');
+      errorMessage.innerHTML = `<p class='assistant'>사진 업로드에 실패했습니다. 잠시 후 다시 시도해주세요.</p>`;
+      chatBox.appendChild(errorMessage);
+    }
+}
+
+// 사진 첨부 버튼 클릭 시 숨겨진 파일 입력을 활성화
+photoBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    photoInput.click();
+});
+  
+// 파일 선택이 완료되면 업로드 실행
+photoInput.addEventListener('change', function () {
+    handlePhotoUpload();
+});
 
 sendButton.addEventListener('click', handleSend);
 chatInput.addEventListener('keypress', function (e) {

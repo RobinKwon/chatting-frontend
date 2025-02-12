@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <meta charset="UTF-8">
-    <title>죽마고우</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8">
+  <title>죽마고우</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-
 <body>
-    <div id="chat" class="chat-container">
-        <div class="chat-box">
-            <div class="chat-message">
-                <p class="assistant">운세에 대해서 물어봐 주세요!</p>
-            </div>
-        </div>
-        <div id="loader" class="loader" style="display: none;">
-            <i class="fa fa-spinner fa-spin"></i>
-        </div>
-        <div class="chat-input">
-            <input type="text" placeholder="Type your message here...">
-            <button id="btn" onclick="spinner()">Send</button>
-        </div>
+  <div id="chat" class="chat-container">
+    <div class="chat-box">
+      <div class="chat-message">
+        <p class="assistant">운세에 대해서 물어봐 주세요!</p>
+      </div>
     </div>
-    <script src="./js/main.js"></script>
+    <div id="loader" class="loader" style="display: none;">
+      <i class="fa fa-spinner fa-spin"></i>
+    </div>
+    <div class="chat-input">
+      <input type="text" placeholder="Type your message here...">
+      <!-- Send 버튼 (메시지 전송) -->
+      <button id="btn" onclick="spinner()">Send</button>
+      <!-- 사진 첨부를 위한 숨겨진 파일 입력 -->
+      <input type="file" id="photoInput" accept="image/*" style="display: none;">
+      <!-- 사진 첨부 버튼 -->
+      <button id="photoBtn">사진 첨부</button>
+    </div>
+  </div>
+  <script src="./js/main.js"></script>
 </body>
-
 </html>
