@@ -131,7 +131,7 @@ async function handlePhotoUpload() {
         return;
     }
   
-    console.log("handleSend!");
+    console.log("handlePhotoUpload!");
 
     // 사용자 ID 가져오기 (예제: sessionStorage 사용)
     userId = sessionStorage.getItem('userId');
@@ -141,11 +141,12 @@ async function handlePhotoUpload() {
         return;
     }
     console.log(`Logged in user ID: ${userId}`);
-    console.log(`Upload file: ${file}`);
-    console.log(`path: ${file.path}`);
-    console.log(`fileName: ${file.originalname}`);
-    console.log(`fileType: ${file.mimetype}`);
+    console.log(`Upload file: `, file);
+    //console.log(`path: ${file.path}`);
+    console.log(`fileName: ${file.name}`);
+    console.log(`fileType: ${file.type}`);
     console.log(`fileSize: ${file.size}`);
+    console.log(`fileBuff: ${file.buffer}`);
 
     spinner(); // 업로드 시작 시 로더 표시
   
