@@ -127,42 +127,61 @@ async function sendMessage() {
 async function handlePhotoUpload() {
     const file = photoInput.files[0];
     if (!file) {
-      return;
+        alert("업로드할 파일을 선택하세요.");
+        return;
     }
   
-    // FormData 객체에 파일 및 필요한 데이터 추가 (예: userId)
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('id', userId);
-  
+    console.log("handleSend!");
+
+    // 사용자 ID 가져오기 (예제: sessionStorage 사용)
+    userId = sessionStorage.getItem('userId');
+    if (!userId) {
+        alert('로그인이 필요합니다.');
+        window.location.href = './login.html';
+        return;
+    }
+    console.log(`Logged in user ID: ${userId}`);
+    console.log(`Upload file: ${file}`);
+    console.log(`path: ${file.path}`);
+    console.log(`fileName: ${file.originalname}`);
+    console.log(`fileType: ${file.mimetype}`);
+    console.log(`fileSize: ${file.size}`);
+
     spinner(); // 업로드 시작 시 로더 표시
   
     try {
-      const response = await fetch(`${API_URL}/upload_image`, {
-        method: 'POST',
-        body: formData
-      });
-      if (!response.ok) {
-        throw new Error('서버 응답에 문제가 있습니다.');
-      }
-      const data = await response.json();
-      document.getElementById('loader').style.display = 'none';
-  
-      // 서버에서 업로드 완료 후 이미지 URL을 반환했다고 가정
-      const photoMessage = document.createElement('div');
-      photoMessage.classList.add('chat-message');
-      photoMessage.innerHTML = `
-        <p class='assistant'>사진 업로드 성공!</p>
-        <img src="${data.imageUrl}" alt="Uploaded photo" style="max-width: 200px;">
-      `;
-      chatBox.appendChild(photoMessage);
+        // ✅ FormData 사용하여 파일 및 데이터 추가
+        const formData = new FormData();
+        formData.append("id", userId);
+        formData.append("file", file); // 파일 추가
+
+        const response = await fetch(`${API_URL}/upload_image`, {
+            method: 'POST',
+            body: formData, // ✅ JSON이 아니라 FormData 사용
+        });
+
+        if (!response.ok) {
+            throw new Error('서버 응답에 문제가 있습니다.');
+        }
+
+        const data = await response.json();
+        document.getElementById('loader').style.display = 'none';
+    
+        // ✅ 업로드 완료 후 이미지 URL 표시
+        const photoMessage = document.createElement('div');
+        photoMessage.classList.add('chat-message');
+        photoMessage.innerHTML = `
+            <p class='assistant'>사진 업로드 성공!</p>
+            <img src="${data.file_url}" alt="Uploaded photo" style="max-width: 200px;">
+        `;
+        chatBox.appendChild(photoMessage);
     } catch (error) {
-      console.error('사진 업로드 실패:', error);
-      document.getElementById('loader').style.display = 'none';
-      const errorMessage = document.createElement('div');
-      errorMessage.classList.add('chat-message');
-      errorMessage.innerHTML = `<p class='assistant'>사진 업로드에 실패했습니다. 잠시 후 다시 시도해주세요.</p>`;
-      chatBox.appendChild(errorMessage);
+        console.error('사진 업로드 실패:', error);
+        document.getElementById('loader').style.display = 'none';
+        const errorMessage = document.createElement('div');
+        errorMessage.classList.add('chat-message');
+        errorMessage.innerHTML = `<p class='assistant'>사진 업로드에 실패했습니다. 잠시 후 다시 시도해주세요.</p>`;
+        chatBox.appendChild(errorMessage);
     }
 }
 
