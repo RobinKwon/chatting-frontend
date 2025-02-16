@@ -150,10 +150,18 @@ async function handlePhotoUpload() {
 
     spinner(); // 업로드 시작 시 로더 표시
   
+    if(chatInput.value != '' ) {
+        const chatMessage = document.createElement('div');
+        chatMessage.classList.add('chat-message');
+        chatMessage.innerHTML = `<p>${chatInput.value}</p>`;
+        chatBox.appendChild(chatMessage);
+    }
+
     try {
         // ✅ FormData 사용하여 파일 및 데이터 추가
         const formData = new FormData();
         formData.append("id", userId);
+        formData.append("userMessages", JSON.stringify({ Text: chatInput.value })),
         formData.append("file", file); // 파일 추가
 
         const response = await fetch(`${API_URL}/upload_image`, {
@@ -165,9 +173,11 @@ async function handlePhotoUpload() {
             throw new Error('서버 응답에 문제가 있습니다.');
         }
 
+        // 응답 데이터 확인
         const data = await response.json();
+        console.log('서버 응답:', data);
         document.getElementById('loader').style.display = 'none';
-    
+
         // ✅ 업로드 완료 후 이미지 URL 표시
         const photoMessage = document.createElement('div');
         photoMessage.classList.add('chat-message');
@@ -176,6 +186,17 @@ async function handlePhotoUpload() {
             <img src="${data.file_url}" alt="Uploaded photo" style="max-width: 200px;">
         `;
         chatBox.appendChild(photoMessage);
+
+        if (typeof data.file_desc === 'string') {
+            const filedesc = document.createElement('div');
+            filedesc.classList.add('chat-message');
+            filedesc.innerHTML = `
+                <p class='assistant'>${data.file_desc}</p>
+            `;
+            chatBox.appendChild(filedesc);
+        } else {
+            throw new Error('Invalid assistant message');
+        }
     } catch (error) {
         console.error('사진 업로드 실패:', error);
         document.getElementById('loader').style.display = 'none';
