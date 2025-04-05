@@ -76,7 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('authToken', data.token);
                 }
                 sessionStorage.setItem('userId', id);
-                window.location.href = './main.html';
+                //window.location.href = './main.html';
+                //250309_1442:change chat to vchat
+                window.location.href = './vchat.html';  
             } else {
                 const errorMessage = data.message || 
                     (response.status === 401 ? 'Invalid credentials' : 'Login failed');

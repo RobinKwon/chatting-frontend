@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 채팅 친구</title>
+    <link rel="stylesheet" href="./css/vchat.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI 채팅 친구</h1>
+        </div>
+        
+        <div class="media-area">
+            <div class="video-container">
+                <video id="user-video" autoplay muted></video>
+                <video id="ai-video" autoplay></video>
+            </div>
+        </div>
+        
+        <div class="control-area">
+            <button id="start-btn">시작</button>
+            <button id="stop-btn" disabled>종료</button>
+            <button id="mic-btn">마이크 켜기</button>
+            <button id="camera-btn">카메라 켜기</button>
+        </div>
+        
+        <div class="chat-box" id="chat-box"></div>
+        
+        <div class="loading" id="loading">AI가 생각 중입니다</div>
+        
+        <div class="input-area">
+            <input type="text" id="message-input" placeholder="메시지 입력..." />
+            <button id="send-btn">전송</button>
+            <button id="voice-btn">음성 메시지</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>

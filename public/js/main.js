@@ -168,6 +168,7 @@ async function handlePhotoUpload() {
             method: 'POST',
             body: formData, // ✅ JSON이 아니라 FormData 사용
         });
+        chatInput.value = '';
 
         if (!response.ok) {
             throw new Error('서버 응답에 문제가 있습니다.');
