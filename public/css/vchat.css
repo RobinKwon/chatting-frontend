@@ -118,3 +118,11 @@ video {
     60% { content: '...'; }
     80%, 100% { content: ''; }
 }
+
+/* 추출된 프레임 이미지 스타일 */
+.frame-image {
+    display: block;
+    max-width: 100%;
+    border-radius: 5px;
+    margin: 10px auto;
+}

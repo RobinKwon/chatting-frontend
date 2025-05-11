@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 채팅 친구</title>
     <link rel="stylesheet" href="./css/vchat.css">
+    <style>
+        .video-container {
+            position: relative;
+        }
+        #ai-video {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+        #user-video {
+            position: absolute;
+            width: 30%;
+            height: auto;
+            top: 10px;
+            right: 10px;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,8 +34,8 @@
         
         <div class="media-area">
             <div class="video-container">
-                <video id="user-video" autoplay muted></video>
                 <video id="ai-video" autoplay></video>
+                <video id="user-video" autoplay muted></video>
             </div>
         </div>
         
